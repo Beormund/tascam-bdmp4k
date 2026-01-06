@@ -1,0 +1,43 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Tascam BD-MP4K",
+        "data": {
+          "host": "IP Address",
+          "mac": "MAC Address (for Power On)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the Tascam unit. Check the IP and Port.",
+      "unknown": "Unexpected error occurred."
+    }
+  },
+  "services": {
+    "send_command": {
+      "name": "Send Command",
+      "description": "Sends a native !7 Tascam protocol command directly to the unit.",
+      "fields": {
+        "command": {
+          "name": "Command String",
+          "description": "The raw command code (e.g., PLY, STP, or !7OSD5)."
+        }
+      }
+    },
+    "subscribe_to_message": {
+      "name": "Subscribe to Message",
+      "description": "Temporarily listens for a specific Tascam response and fires an event when matched.",
+      "fields": {
+        "match": {
+          "name": "Match Pattern",
+          "description": "The specific string to look for in the response (e.g., !7OSD)."
+        },
+        "duration": {
+          "name": "Duration",
+          "description": "How many seconds to keep the listener active before automatically unregistering."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Tascam BD-MP4K Integration",
+  "content_type": "integration",
+  "homeassistant": "2025.12.0"
+}

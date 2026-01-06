@@ -1,0 +1,13 @@
+{
+  "domain": "tascam_bdmp4k",
+  "name": "Tascam BD-MP4K",
+  "version": "1.0.0",
+  "documentation": "https://github.com/Beormund/tascam-bdmp4k",
+  "issue_tracker": "https://github.com/Beormund/tascam-bdmp4k/issues",
+  "dependencies": [],
+  "codeowners": ["@Beormund"],
+  "config_flow": true,
+  "integration_type": "device",
+  "iot_class": "local_push",
+  "requirements": []
+}

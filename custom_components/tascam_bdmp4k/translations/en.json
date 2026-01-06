@@ -1,0 +1,17 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Tascam BD-MP4K",
+        "data": {
+          "host": "IP Address",
+          "mac": "MAC Address (for Power On)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the Tascam unit. Check the IP and Port.",
+      "unknown": "Unexpected error occurred."
+    }
+  }
+}
