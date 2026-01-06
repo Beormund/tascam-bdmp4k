@@ -22,7 +22,8 @@ The integration supports Home Assistant **Config Flow** for a seamless, UI-drive
 
 1. Navigate to **Settings** > **Devices & Services**.
 2. Click **Add Integration** and search for **Tascam BD-MP4K**.
-3. Provide the following details:
+3. Ensure your BD-MP4K player is powered on and network ready.
+4. Provide the following details:
     * **Host:** Reserved/Static IP address of the Tascam unit.
     * **MAC Address:** Required for Wake-on-LAN (WOL) Power-On.
     * **Port:** Default is `9030`.
