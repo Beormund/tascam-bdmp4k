@@ -26,7 +26,6 @@ The integration supports Home Assistant **Config Flow** for a seamless, UI-drive
 4. Provide the following details:
     * **Host:** Reserved/Static IP address of the Tascam unit.
     * **MAC Address:** Required for Wake-on-LAN (WOL) Power-On.
-    * **Port:** Default is `9030`.
 
 ---
 
@@ -76,7 +75,7 @@ Use the `remote.send_command` service to trigger hardware functions.
 This integration exposes the Tascam's internal bus directly to the Home Assistant Event Bus for low-latency automation.
 
 ### 1. Service: `tascam_bdmp4k.send_command`
-A coordinator-level service that allows you to dispatch any Tascam protocol string or friendly command. 
+This service allows you to dispatch any Tascam protocol string or friendly command. 
 
 ```yaml
 service: tascam_bdmp4k.send_command
@@ -103,6 +102,8 @@ data:
 Fires for every status update, including synthesized power events.
 * **Use Case:** Instantly dim lights the moment playback starts.
 * **Payload:** `{"command": "!7SSTPL"}`
+* `"!7SSTON"` is fired when unit switches on (issued by controller)
+* `"!7SSTOFF"` is fired when unit switches off (issued by contrroler)
 
 ## 🔍 Testing & Diagnostics
 
@@ -116,7 +117,7 @@ You can verify the integration's logic and the hardware's responses using the **
 ```yaml
 action: tascam_bdmp4k.send_command
 data:
-  command: "!7DSP"
+  command: "DSP"
 ```
 
 4. Click **Perform Action**. Your Tascam unit should toggle its On-Screen Display.

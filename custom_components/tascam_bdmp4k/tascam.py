@@ -5,7 +5,7 @@ import socket
 import re
 from enum import Enum, IntFlag, auto
 from typing import Optional, Callable
-from asyncio import Future
+from asyncio import Future, StreamReader, StreamWriter
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -67,7 +67,8 @@ class TascamController:
         self.host = host
         self.mac_address = mac_address
         self.port = port
-        self.reader, self.writer = None, None
+        self.reader: Optional[StreamReader] = None
+        self.writer: Optional[StreamWriter] = None
         self.on_data_received_callback: Optional[Callable[[], None]] = None
 
         # State Management
@@ -418,6 +419,22 @@ class TascamController:
             self._status &= ~ControllerStatus.HEARTBEAT_RUN
             self._log("HEARTBEAT STOPPED")
 
+    async def _poll_sequenced(self) -> bool:
+        """Regularly send a set of requests to the unit"""
+        try:
+            # If the unit doesn't ACK the first poll, it's effectively OFF
+            if not await self.send_command("?SST"): 
+                return False
+            cmds = ["?MUT", "?MST"]
+            if self.is_media_active:
+                cmds.extend(["?SET", "?SRT", "?SGN", "?STC", "?STG", "?STT"])
+
+            for cmd in cmds:
+                await self.send_command(cmd)
+                await asyncio.sleep(0.03)
+            return True
+        except: return False
+
     async def send_command(self, cmd_body: str) -> bool:
         """Sends protocol command to unit"""
         # 1. Physical check
@@ -463,22 +480,6 @@ class TascamController:
             self._log(f"COMMAND FAILED: {err}")
             return False
 
-    async def _poll_sequenced(self) -> bool:
-        """Regularly send a set of requests to the unit"""
-        try:
-            # If the unit doesn't ACK the first poll, it's effectively OFF
-            if not await self.send_command("?SST"): return False
-
-            cmds = ["?MUT", "?MST"]
-            if self.is_media_active:
-                cmds.extend(["?SET", "?SRT", "?SGN", "?STC", "?STG", "?STT"])
-
-            for cmd in cmds:
-                await self.send_command(cmd)
-                await asyncio.sleep(0.03)
-            return True
-        except: return False
-
     async def _cleanup(self):
         """Internal reset: Closes sockets and wipes UI data."""
         async with self._cleanup_lock:
@@ -512,7 +513,7 @@ class TascamController:
             self._log("CLEANUP COMPLETE - DRIVER IDLE")
 
     async def _listen(self):
-        """Listens to responses from the unit (solicited and unsolicited"""
+        """Listens to responses from the unit (solicited and unsolicited)"""
         try:
             while self.writer and self.reader:
                 data = await self.reader.read(4096)
