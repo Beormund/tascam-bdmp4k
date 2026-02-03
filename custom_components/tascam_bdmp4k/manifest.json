@@ -1,7 +1,7 @@
 {
   "domain": "tascam_bdmp4k",
   "name": "Tascam BD-MP4K",
-  "version": "2026.1.0",
+  "version": "1.0.0",
   "documentation": "https://github.com/Beormund/tascam-bdmp4k",
   "issue_tracker": "https://github.com/Beormund/tascam-bdmp4k/issues",
   "dependencies": [],
