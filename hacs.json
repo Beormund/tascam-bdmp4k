@@ -1,6 +1,5 @@
 {
   "name": "Tascam BD-MP4K",
-  "content_type": "integration",
-  "homeassistant": "1.0.0",
+  "homeassistant": "2025.1.0",
   "render_readme": true
 }
