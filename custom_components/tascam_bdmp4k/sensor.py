@@ -2,7 +2,8 @@ from datetime import date, datetime
 
 from decimal import Decimal
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from homeassistant.components.sensor import SensorEntity, StateType
+from homeassistant.components.sensor import SensorEntity
+from homeassistant.helpers.typing import StateType
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
